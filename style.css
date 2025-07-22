@@ -10,21 +10,25 @@ body {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background: #232837;
-  padding: 2rem 3rem 2rem 2rem;
+  padding: 2.5rem 0 2.5rem 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
   z-index: 10;
 }
-
-.header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin: 0;
+.header-center {
+  justify-content: center;
+}
+.labfy-logo {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #f3f4f6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
 
 .branding {
@@ -82,57 +86,168 @@ body {
 }
 
 .lista-erros {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
 .card-erro {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   background: #1a1f2b;
   border-radius: 1.2rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.13);
   padding: 1.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
+  gap: 1.5rem;
   cursor: pointer;
   transition: transform 0.12s, box-shadow 0.12s;
-  border-left: 6px solid #fbbf24;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
 }
-
-.card-erro[data-severity="critical"] {
-  border-left: 6px solid #ef4444;
-}
-.card-erro[data-severity="warning"] {
-  border-left: 6px solid #fbbf24;
-}
-.card-erro[data-severity="info"] {
-  border-left: 6px solid #38bdf8;
-}
-
 .card-erro:hover {
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 6px 24px rgba(0,0,0,0.22);
 }
 
-.card-erro .erro-titulo {
-  font-size: 1.2rem;
-  font-weight: 600;
+.card-erro .icone-severidade {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+.card-erro[data-severity="critical"] .icone-severidade {
+  background: #ef4444;
+}
+.card-erro[data-severity="warning"] .icone-severidade {
+  background: #fbbf24;
+}
+.card-erro[data-severity="info"] .icone-severidade {
+  background: #38bdf8;
+}
+
+.card-erro-conteudo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.card-erro-linha1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.1rem;
+}
+.card-erro-linha1 .workflow-nome {
+  font-weight: 700;
   color: #f3f4f6;
 }
-
-.card-erro .erro-meta {
-  font-size: 1rem;
+.card-erro-linha1 .node-nome {
   color: #a0aec0;
-  display: flex;
-  gap: 1.2rem;
+  font-weight: 500;
+}
+.card-erro-linha1 .erro-data {
+  color: #a0aec0;
+  font-weight: 400;
 }
 
-.card-erro .erro-severidade {
+.card-erro-linha2 {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 0.2rem;
+}
+.card-erro-linha2 .erro-message {
+  color: #ef4444;
   font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40vw;
+}
+.card-erro-linha2 .badge-severidade {
+  padding: 0.2rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
+  margin-left: auto;
   letter-spacing: 1px;
+  background: #232837;
+  color: #f3f4f6;
+  border: 2px solid #353b4a;
+}
+.card-erro[data-severity="critical"] .badge-severidade {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+}
+.card-erro[data-severity="warning"] .badge-severidade {
+  background: #fbbf24;
+  color: #232837;
+  border: none;
+}
+.card-erro[data-severity="info"] .badge-severidade {
+  background: #38bdf8;
+  color: #232837;
+  border: none;
+}
+
+.erro-titulo-emlinha {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin-bottom: 0.2rem;
+}
+.label {
+  color: #fbbf24;
+  font-weight: 700;
+  margin-right: 0.2rem;
+}
+.workflow-nome {
+  color: #f3f4f6;
+  font-weight: 600;
+}
+.node-nome {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.erro-message {
+  color: #ef4444;
+  font-size: 1rem;
+  margin-left: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40vw;
+}
+
+/* Remover estilos antigos de .erro-info-emlinha e campos relacionados */
+.erro-info-emlinha, .erro-info-emlinha .label, .erro-info-emlinha .workflow-nome, .erro-info-emlinha .node-nome, .erro-info-emlinha .erro-data, .erro-info-emlinha .erro-severidade, .erro-info-emlinha .erro-message {
+  all: unset;
+}
+
+.badge-tempo {
+  background: #232837;
+  color: #a0aec0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 1rem;
+  padding: 0.2rem 0.8rem;
+  margin-left: 0.7rem;
+  letter-spacing: 1px;
+  border: 2px solid #353b4a;
+  display: inline-block;
 }
 
 .dashboards-section {
@@ -209,6 +324,11 @@ body {
     max-width: 98vw;
     padding: 1.2rem 0.7rem 1rem 0.7rem;
   }
+  .card-erro-linha1, .card-erro-linha2 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -224,5 +344,8 @@ body {
   }
   .card-erro {
     padding: 1rem 0.7rem;
+  }
+  .header .labfy-logo {
+    font-size: 1.5rem;
   }
 } 

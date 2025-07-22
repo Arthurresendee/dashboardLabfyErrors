@@ -5,11 +5,13 @@ const INTERVALO_ATUALIZACAO = 5 * 60 * 1000; // 5 minutos
 
 let erros = [];
 let errosFiltrados = [];
+let quantidadeItens = 10;
 
 const listaErrosEl = document.getElementById('lista-erros');
 const filtroWorkflowEl = document.getElementById('filtro-workflow');
 const filtroNodeEl = document.getElementById('filtro-node');
 const filtroSeveridadeEl = document.getElementById('filtro-severidade');
+const filtroQuantidadeEl = document.getElementById('filtro-quantidade');
 const modalEl = document.getElementById('modal-detalhe');
 const detalheErroEl = document.getElementById('detalhe-erro');
 const fecharModalEl = document.getElementById('fechar-modal');
@@ -57,15 +59,23 @@ function desenharListaErros() {
     listaErrosEl.innerHTML = '<div style="color:#fbbf24">Nenhum erro encontrado.</div>';
     return;
   }
-  listaErrosEl.innerHTML = errosFiltrados.map(erro => `
+  const errosParaExibir = errosFiltrados.slice(0, quantidadeItens);
+  listaErrosEl.innerHTML = errosParaExibir.map(erro => `
     <div class="card-erro" data-severity="${erro.severity || 'info'}" tabindex="0" aria-label="Ver detalhes do erro" role="button"
       onclick="abrirModalDetalhe('${erro.id}')" onkeydown="if(event.key==='Enter'){abrirModalDetalhe('${erro.id}')}" >
-      <div class="erro-titulo">${erro.workflow} &rarr; <span style="color:#38bdf8">${erro.node}</span></div>
-      <div class="erro-meta">
-        <span>${formatarData(erro.error_timestamp)}</span>
-        <span class="erro-severidade">${erro.severity ? erro.severity.toUpperCase() : 'INFO'}</span>
+      <div class="icone-severidade"></div>
+      <div class="card-erro-conteudo">
+        <div class="card-erro-linha1">
+          <span class="workflow-nome">${erro.workflow}</span>
+          <span class="node-nome">${erro.node}</span>
+          <span class="erro-data">${formatarData(erro.error_timestamp)}</span>
+        </div>
+        <div class="card-erro-linha2">
+          <span class="erro-message">${erro.error_message}</span>
+          <span class="badge-severidade">${erro.severity ? erro.severity.toUpperCase() : 'INFO'}</span>
+          <span class="badge-tempo">${tempoAtras(erro.error_timestamp)}</span>
+        </div>
       </div>
-      <div style="color:#ef4444;font-size:1rem;">${erro.error_message}</div>
     </div>
   `).join('');
 }
@@ -104,6 +114,10 @@ window.addEventListener('keydown', e => {
 filtroWorkflowEl.onchange = aplicarFiltros;
 filtroNodeEl.onchange = aplicarFiltros;
 filtroSeveridadeEl.onchange = aplicarFiltros;
+filtroQuantidadeEl.onchange = () => {
+  quantidadeItens = parseInt(filtroQuantidadeEl.value, 10);
+  aplicarFiltros();
+};
 
 // Atualização periódica
 setInterval(buscarErros, INTERVALO_ATUALIZACAO);
@@ -155,6 +169,19 @@ function desenharGraficos() {
     }],
     backgroundColor: '#1a1f2b'
   });
+}
+
+function tempoAtras(dataStr) {
+  const agora = new Date();
+  const data = new Date(dataStr);
+  const diffMs = agora - data;
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 1) return 'agora mesmo';
+  if (diffMin < 60) return `${diffMin} min atrás`;
+  const diffH = Math.floor(diffMin / 60);
+  if (diffH < 24) return `${diffH}h atrás`;
+  const diffD = Math.floor(diffH / 24);
+  return `${diffD}d atrás`;
 }
 
 // Inicialização

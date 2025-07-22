@@ -9,15 +9,20 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body>
-  <header class="header">
-    <h1>Monitor de Erros n8n</h1>
-    <span class="branding">LabFy</span>
+  <header class="header header-center">
+    <span class="labfy-logo">LabFy</span>
   </header>
   <main class="main-content">
     <section class="erros-section">
       <div class="erros-header">
         <h2>Lista de Erros Recentes</h2>
         <div class="filtros">
+          <select id="filtro-quantidade" aria-label="Quantidade de erros por página">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
           <select id="filtro-workflow" aria-label="Filtrar por workflow">
             <option value="">Todos Workflows</option>
           </select>
