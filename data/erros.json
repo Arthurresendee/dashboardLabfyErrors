@@ -1,0 +1,162 @@
+[
+  {
+    "id": "3",
+    "workflow": "[LabFy] arthur(teste)",
+    "node": "Unknown Node",
+    "error_message": "No error message",
+    "stack_trace": "No stack trace available",
+    "created_at": "2025-07-22T17:10:39.566Z",
+    "workflow_id": "PppAWVnvdf8YYOeX",
+    "execution_id": "123419",
+    "error_type": "Unknown Type",
+    "severity": "warning",
+    "suggested_fix": null,
+    "error_timestamp": "2025-07-22T17:10:39.512Z",
+    "execution_mode": "production",
+    "full_error_data": {
+      "execution": {
+        "id": "123418",
+        "url": "https://webhook.autommatic.com.br/workflow/PppAWVnvdf8YYOeX/executions/123418",
+        "error": {
+          "level": "error",
+          "description": "Try changing the type of comparison. Alternatively you can enable 'Convert types where required'.",
+          "message": "invalid syntax"
+        },
+        "lastNodeExecuted": "Verifica se a mensagem é do agente1",
+        "mode": "webhook"
+      },
+      "workflow": {
+        "id": "PppAWVnvdf8YYOeX",
+        "name": "[LabFy] arthur(teste)"
+      }
+    }
+  },
+  {
+    "id": "4",
+    "workflow": "[LabFy] arthur(teste)",
+    "node": "Verifica se a mensagem é do agente1",
+    "error_message": "invalid syntax",
+    "stack_trace": "Error: invalid syntax at Expression.renderExpression...",
+    "created_at": "2025-07-22T17:19:36.421Z",
+    "workflow_id": "PppAWVnvdf8YYOeX",
+    "execution_id": "123483",
+    "error_type": "n8n-nodes-base.if",
+    "severity": "critical",
+    "suggested_fix": "Verifique a expressão do node IF.",
+    "error_timestamp": "2025-07-22T17:19:36.243Z",
+    "execution_mode": "webhook",
+    "full_error_data": {
+      "execution": {
+        "id": "123483",
+        "url": "https://webhook.autommatic.com.br/workflow/PppAWVnvdf8YYOeX/executions/123483",
+        "error": {
+          "level": "error",
+          "description": "Try changing the type of comparison.",
+          "message": "invalid syntax"
+        },
+        "lastNodeExecuted": "Verifica se a mensagem é do agente1",
+        "mode": "webhook"
+      },
+      "workflow": {
+        "id": "PppAWVnvdf8YYOeX",
+        "name": "[LabFy] arthur(teste)"
+      }
+    }
+  },
+  {
+    "id": "5",
+    "workflow": "[LabFy] arthur(teste)",
+    "node": "Pega memoria 3",
+    "error_message": "invalid syntax",
+    "stack_trace": "NodeOperationError: invalid syntax at ExecuteContext.execute...",
+    "created_at": "2025-07-22T17:24:43.266Z",
+    "workflow_id": "PppAWVnvdf8YYOeX",
+    "execution_id": "123540",
+    "error_type": "n8n-nodes-base.redis",
+    "severity": "warning",
+    "suggested_fix": "Reveja a sintaxe do campo 'key' no node Redis.",
+    "error_timestamp": "2025-07-22T17:24:43.213Z",
+    "execution_mode": "webhook",
+    "full_error_data": {
+      "execution": {
+        "id": "123540",
+        "url": "https://webhook.autommatic.com.br/workflow/PppAWVnvdf8YYOeX/executions/123540",
+        "error": {
+          "level": "warning",
+          "description": "NodeOperationError: invalid syntax",
+          "message": "invalid syntax"
+        },
+        "lastNodeExecuted": "Pega memoria 3",
+        "mode": "webhook"
+      },
+      "workflow": {
+        "id": "PppAWVnvdf8YYOeX",
+        "name": "[LabFy] arthur(teste)"
+      }
+    }
+  },
+  {
+    "id": "6",
+    "workflow": "[LabFy] arthur(teste)",
+    "node": "Redis",
+    "error_message": "invalid syntax",
+    "stack_trace": "NodeOperationError: invalid syntax at ExecuteContext.execute...",
+    "created_at": "2025-07-22T17:29:16.581Z",
+    "workflow_id": "PppAWVnvdf8YYOeX",
+    "execution_id": "123552",
+    "error_type": "n8n-nodes-base.redis",
+    "severity": "info",
+    "suggested_fix": "Confirme o valor do campo 'key' no node Redis.",
+    "error_timestamp": "2025-07-22T17:29:16.523Z",
+    "execution_mode": "webhook",
+    "full_error_data": {
+      "execution": {
+        "id": "123552",
+        "url": "https://webhook.autommatic.com.br/workflow/PppAWVnvdf8YYOeX/executions/123552",
+        "error": {
+          "level": "warning",
+          "description": "NodeOperationError: invalid syntax",
+          "message": "invalid syntax"
+        },
+        "lastNodeExecuted": "Redis",
+        "mode": "webhook"
+      },
+      "workflow": {
+        "id": "PppAWVnvdf8YYOeX",
+        "name": "[LabFy] arthur(teste)"
+      }
+    }
+  },
+  {
+    "id": "7",
+    "workflow": "[LabFy] arthur(teste)",
+    "node": "Redis",
+    "error_message": "invalid syntax",
+    "stack_trace": "NodeOperationError: invalid syntax at ExecuteContext.execute...",
+    "created_at": "2025-07-22T17:33:35.594Z",
+    "workflow_id": "PppAWVnvdf8YYOeX",
+    "execution_id": "123555",
+    "error_type": "n8n-nodes-base.redis",
+    "severity": "critical",
+    "suggested_fix": "Verifique a expressão do campo 'key' no node Redis.",
+    "error_timestamp": "2025-07-22T17:33:35.525Z",
+    "execution_mode": "webhook",
+    "full_error_data": {
+      "execution": {
+        "id": "123555",
+        "url": "https://webhook.autommatic.com.br/workflow/PppAWVnvdf8YYOeX/executions/123555",
+        "error": {
+          "level": "warning",
+          "description": "NodeOperationError: invalid syntax",
+          "message": "invalid syntax"
+        },
+        "lastNodeExecuted": "Redis",
+        "mode": "webhook"
+      },
+      "workflow": {
+        "id": "PppAWVnvdf8YYOeX",
+        "name": "[LabFy] arthur(teste)"
+      }
+    }
+  }
+] 

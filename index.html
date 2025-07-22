@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Erros n8n</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>Monitor de Erros n8n</h1>
+    <span class="branding">LabFy</span>
+  </header>
+  <main class="main-content">
+    <section class="erros-section">
+      <div class="erros-header">
+        <h2>Lista de Erros Recentes</h2>
+        <div class="filtros">
+          <select id="filtro-workflow" aria-label="Filtrar por workflow">
+            <option value="">Todos Workflows</option>
+          </select>
+          <select id="filtro-node" aria-label="Filtrar por node">
+            <option value="">Todos Nodes</option>
+          </select>
+          <select id="filtro-severidade" aria-label="Filtrar por severidade">
+            <option value="">Todas Severidades</option>
+            <option value="critical">Crítico</option>
+            <option value="warning">Aviso</option>
+            <option value="info">Info</option>
+          </select>
+        </div>
+      </div>
+      <div id="lista-erros" class="lista-erros"></div>
+    </section>
+    <section class="dashboards-section">
+      <h2>Dashboards</h2>
+      <div id="grafico-erros-workflow" class="grafico"></div>
+      <div id="grafico-erros-severidade" class="grafico"></div>
+    </section>
+  </main>
+  <div id="modal-detalhe" class="modal" aria-modal="true" role="dialog" tabindex="-1" hidden>
+    <div class="modal-content">
+      <button class="modal-close" id="fechar-modal" aria-label="Fechar">&times;</button>
+      <div id="detalhe-erro"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html> 

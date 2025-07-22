@@ -1,0 +1,228 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #181c24;
+  color: #f3f4f6;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #232837;
+  padding: 2rem 3rem 2rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.branding {
+  font-size: 1.2rem;
+  background: #2d3748;
+  color: #fbbf24;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.main-content {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.erros-section {
+  background: #232837;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  margin-bottom: 1.5rem;
+}
+
+.erros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filtros {
+  display: flex;
+  gap: 1rem;
+}
+
+.filtros select {
+  background: #181c24;
+  color: #f3f4f6;
+  border: 1px solid #353b4a;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.filtros select:focus {
+  border: 1.5px solid #fbbf24;
+}
+
+.lista-erros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-erro {
+  background: #1a1f2b;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  border-left: 6px solid #fbbf24;
+}
+
+.card-erro[data-severity="critical"] {
+  border-left: 6px solid #ef4444;
+}
+.card-erro[data-severity="warning"] {
+  border-left: 6px solid #fbbf24;
+}
+.card-erro[data-severity="info"] {
+  border-left: 6px solid #38bdf8;
+}
+
+.card-erro:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+}
+
+.card-erro .erro-titulo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+.card-erro .erro-meta {
+  font-size: 1rem;
+  color: #a0aec0;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.card-erro .erro-severidade {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dashboards-section {
+  background: #232837;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  margin-bottom: 1.5rem;
+}
+
+.dashboards-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.grafico {
+  width: 100%;
+  height: 340px;
+  background: #1a1f2b;
+  border-radius: 1.2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24,28,36,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal[hidden] {
+  display: none;
+}
+.modal-content {
+  background: #232837;
+  border-radius: 1.2rem;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 420px;
+  max-width: 600px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  color: #fbbf24;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-close:hover {
+  color: #ef4444;
+}
+#detalhe-erro {
+  margin-top: 1.5rem;
+  color: #f3f4f6;
+  font-size: 1.1rem;
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    padding: 1rem 0.5rem 0 0.5rem;
+  }
+  .modal-content {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  .branding {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+  }
+  .erros-header h2, .dashboards-section h2 {
+    font-size: 1.1rem;
+  }
+  .card-erro {
+    padding: 1rem 0.7rem;
+  }
+} 
