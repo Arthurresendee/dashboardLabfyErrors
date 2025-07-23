@@ -147,7 +147,46 @@ if (btnFullscreen) {
   });
 }
 
+// =====================
+// AUTO-SCROLL PARA TV
+// =====================
+// Faz a página rolar lentamente até o final, depois volta pro topo e recomeça
+// Ideal para dashboards em TV com listas longas
+const SCROLL_STEP = 1; // pixels por passo
+const SCROLL_INTERVAL = 30; // ms entre cada passo (quanto menor, mais rápido)
+const SCROLL_PAUSE = 2000; // ms de pausa ao chegar no final/topo
+
+function startAutoScroll() {
+  let direction = 1; // 1 = descendo, -1 = subindo
+  let scrollTimer = null;
+
+  function scrollStep() {
+    if (direction === 1) {
+      // Descendo
+      if (window.innerHeight + window.scrollY < document.body.offsetHeight - 2) {
+        window.scrollBy({ top: SCROLL_STEP, left: 0, behavior: 'smooth' });
+        scrollTimer = setTimeout(scrollStep, SCROLL_INTERVAL);
+      } else {
+        // Chegou no final, pausa e sobe (volta pro topo suavemente)
+        setTimeout(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          direction = 1;
+          scrollStep();
+        }, SCROLL_PAUSE);
+      }
+    }
+  }
+
+  // Começa a rolar
+  scrollStep();
+
+  // Se quiser parar a rolagem automática, chame clearTimeout(scrollTimer)
+}
+
 // Inicialização: busca os erros ao carregar a página e atualiza periodicamente
 // Se quiser mudar o tempo, altere INTERVALO_ATUALIZACAO lá em cima
 buscarErros();
-setInterval(buscarErros, INTERVALO_ATUALIZACAO); 
+setInterval(buscarErros, INTERVALO_ATUALIZACAO);
+
+// Inicia o auto-scroll ao carregar a página
+startAutoScroll(); 
