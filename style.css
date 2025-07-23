@@ -8,17 +8,20 @@ body {
   overflow-x: hidden;
 }
 
+/* =====================
+   HEADER E TOPO
+   ===================== */
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
   background: #232837;
-  padding: 1rem 0 1rem 0;
+  padding: 1rem 0 1rem 0; /* topo mais compacto */
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
   z-index: 10;
-  position: relative;
+  position: relative; /* para posicionar o botão fullscreen */
 }
 .header-center {
   justify-content: center;
@@ -101,8 +104,7 @@ body {
   box-shadow: 0 2px 12px rgba(0,0,0,0.13);
   padding: 1.5rem 2rem;
   gap: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s;
+  cursor: default;
   border-left: none;
   border-top: none;
   border-bottom: none;
@@ -119,7 +121,7 @@ body {
   border-radius: 50%;
   margin-top: 0.2rem;
   flex-shrink: 0;
-  background: #ef4444;
+  background: #ef4444; /* sempre crítico */
 }
 .card-erro .badge-severidade {
   padding: 0.2rem 0.8rem;
@@ -332,6 +334,9 @@ body {
   font-style: italic;
 }
 
+/* =====================
+   BOTÃO FULLSCREEN
+   ===================== */
 .btn-fullscreen {
   position: absolute;
   right: 2.5rem;
@@ -353,6 +358,9 @@ body {
   outline: none;
 }
 
+/* =====================
+   INDICADORES (CARDS PREMIUM)
+   ===================== */
 .indicadores-section {
   width: 100%;
   margin: 2.5rem 0 2.5rem 0;
@@ -372,7 +380,7 @@ body {
   max-width: 400px;
   background: #20242e;
   border-radius: 2rem;
-  box-shadow: 2px 2px 8px #181c24, -2px -2px 8px #232837;
+  box-shadow: 2px 2px 8px #181c24, -2px -2px 8px #232837; /* neumorphism sutil */
   padding: 2.2rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
@@ -417,6 +425,9 @@ body {
   text-shadow: 0 1px 2px #181c24;
 }
 
+/* =====================
+   RESPONSIVIDADE (TELA PEQUENA)
+   ===================== */
 @media (max-width: 900px) {
   .main-content {
     padding: 1rem 0.5rem 0 0.5rem;
@@ -442,22 +453,14 @@ body {
     padding: 1.2rem 0.7rem 1rem 0.7rem;
   }
 }
-
 @media (max-width: 600px) {
-  .header h1 {
-    font-size: 1.3rem;
-  }
-  .branding {
-    font-size: 0.9rem;
-    padding: 0.3rem 0.7rem;
-  }
-  .erros-header h2 {
-    font-size: 1.1rem;
+  .header .labfy-logo {
+    font-size: 1.5rem;
   }
   .card-erro {
     padding: 1rem 0.7rem;
   }
-  .header .labfy-logo {
-    font-size: 1.5rem;
+  .erros-header h2 {
+    font-size: 1.1rem;
   }
 } 
