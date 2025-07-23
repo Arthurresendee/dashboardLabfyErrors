@@ -11,16 +11,35 @@
 <body>
   <header class="header header-center">
     <span class="labfy-logo">Lista de erros LabFy</span>
+    <button id="btn-fullscreen" class="btn-fullscreen" aria-label="Entrar em tela cheia" title="Tela cheia">⛶</button>
   </header>
   <main class="main-content">
     <section class="erros-section">
       <div id="lista-erros" class="lista-erros"></div>
     </section>
+    <section class="indicadores-section">
+      <div class="indicadores-cards">
+        <div class="indicador-card" id="card-total-erros">
+          <div class="indicador-titulo">Total de erros</div>
+          <div class="indicador-valor" id="valor-total-erros">0</div>
+        </div>
+        <div class="indicador-card" id="card-total-workflows">
+          <div class="indicador-titulo">Total de workflows</div>
+          <div class="indicador-valor" id="valor-total-workflows">0</div>
+        </div>
+        <div class="indicador-card" id="card-top-workflows">
+          <div class="indicador-titulo">Top 3 workflows</div>
+          <ol class="indicador-top-list" id="valor-top-workflows"></ol>
+        </div>
+      </div>
+    </section>
+    <!--
     <section class="dashboards-section">
       <h2>Dashboards</h2>
       <div id="grafico-erros-workflow" class="grafico"></div>
       <div id="grafico-erros-severidade" class="grafico"></div>
     </section>
+    -->
   </main>
   <script src="script.js"></script>
 </body>

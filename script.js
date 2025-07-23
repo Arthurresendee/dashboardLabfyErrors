@@ -16,16 +16,38 @@ async function buscarErros() {
     erros = await resp.json();
     errosFiltrados = erros;
     desenharListaErros();
-    desenharGraficos();
+    // desenharGraficos(); // Comentado para desabilitar os gráficos
   } catch (e) {
     listaErrosEl.innerHTML = '<div style="color:#ef4444">Erro ao carregar dados.</div>';
   }
+}
+
+function atualizarIndicadores() {
+  // Total de erros
+  const totalErros = errosFiltrados.length;
+  document.getElementById('valor-total-erros').textContent = totalErros;
+
+  // Total de workflows
+  const workflowsUnicos = [...new Set(errosFiltrados.map(e => e.workflow))];
+  document.getElementById('valor-total-workflows').textContent = workflowsUnicos.length;
+
+  // Top 3 workflows
+  const contagem = {};
+  errosFiltrados.forEach(e => {
+    contagem[e.workflow] = (contagem[e.workflow] || 0) + 1;
+  });
+  const top3 = Object.entries(contagem)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+  const topList = document.getElementById('valor-top-workflows');
+  topList.innerHTML = top3.map(([workflow, count]) => `<li>${workflow} <span style='color:#a0aec0;font-weight:400'>(${count})</span></li>`).join('');
 }
 
 // Renderiza a lista de erros
 function desenharListaErros() {
   if (!errosFiltrados.length) {
     listaErrosEl.innerHTML = '<div style="color:#fbbf24">Nenhum erro encontrado.</div>';
+    atualizarIndicadores();
     return;
   }
   listaErrosEl.innerHTML = errosFiltrados.map(erro => {
@@ -58,6 +80,8 @@ function desenharListaErros() {
     </div>
     `;
   }).join('');
+  atualizarIndicadores();
+  // desenharGraficos();
 }
 
 // Formata data/hora para exibição
@@ -74,60 +98,86 @@ window.abrirModalDetalhe = function(id) {
   // Removido: modalEl.hidden = false; modalEl.focus();
 }
 
-// Removido: fecharModalEl.onclick = () => { modalEl.hidden = true; };
-// Removido: window.addEventListener('keydown', e => { if (!modalEl.hidden && e.key === 'Escape') modalEl.hidden = true; });
-
 // Atualização periódica
 setInterval(buscarErros, INTERVALO_ATUALIZACAO);
 
 // Gráficos ECharts (placeholders)
-function desenharGraficos() {
-  // Erros por workflow
-  const porWorkflow = {};
-  erros.forEach(e => {
-    porWorkflow[e.workflow] = (porWorkflow[e.workflow] || 0) + 1;
-  });
-  const chart1 = echarts.init(document.getElementById('grafico-erros-workflow'));
-  chart1.setOption({
-    title: { text: 'Erros por Workflow', left: 'center', textStyle: { color: '#f3f4f6' } },
-    tooltip: {},
-    xAxis: { type: 'category', data: Object.keys(porWorkflow), axisLabel: { color: '#f3f4f6' } },
-    yAxis: { type: 'value', axisLabel: { color: '#f3f4f6' } },
-    series: [{
-      data: Object.values(porWorkflow),
-      type: 'bar',
-      itemStyle: { color: '#38bdf8' }
-    }],
-    backgroundColor: '#1a1f2b'
-  });
-
-  // Erros por severidade
-  const porSeveridade = { critical: 0, warning: 0, info: 0 };
-  erros.forEach(e => {
-    const s = (e.severity || 'info').toLowerCase();
-    porSeveridade[s] = (porSeveridade[s] || 0) + 1;
-  });
-  const chart2 = echarts.init(document.getElementById('grafico-erros-severidade'));
-  chart2.setOption({
-    title: { text: 'Erros por Severidade', left: 'center', textStyle: { color: '#f3f4f6' } },
-    tooltip: {},
-    legend: { data: ['Erros'], textStyle: { color: '#f3f4f6' } },
-    xAxis: { type: 'category', data: Object.keys(porSeveridade), axisLabel: { color: '#f3f4f6' } },
-    yAxis: { type: 'value', axisLabel: { color: '#f3f4f6' } },
-    series: [{
-      data: Object.values(porSeveridade),
-      type: 'bar',
-      itemStyle: {
-        color: function(params) {
-          if (params.name === 'critical') return '#ef4444';
-          if (params.name === 'warning') return '#fbbf24';
-          return '#38bdf8';
-        }
-      }
-    }],
-    backgroundColor: '#1a1f2b'
-  });
-}
+// function desenharGraficos() {
+//   // Erros por workflow
+//   const porWorkflow = {};
+//   erros.forEach(e => {
+//     porWorkflow[e.workflow] = (porWorkflow[e.workflow] || 0) + 1;
+//   });
+//   const chart1 = echarts.init(document.getElementById('grafico-erros-workflow'));
+//   chart1.setOption({
+//     title: { text: 'Erros por Workflow', left: 'center', top: 18, textStyle: { color: '#f3f4f6', fontSize: 22, fontWeight: 700, fontFamily: 'Segoe UI, Roboto, Arial' } },
+//     tooltip: {
+//       trigger: 'axis',
+//       backgroundColor: '#232837ee',
+//       borderRadius: 12,
+//       borderWidth: 0,
+//       textStyle: { color: '#f3f4f6', fontSize: 16 },
+//       padding: 14
+//     },
+//     grid: { left: 40, right: 20, top: 60, bottom: 40 },
+//     xAxis: { type: 'category', data: Object.keys(porWorkflow), axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
+//     yAxis: { type: 'value', axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
+//     series: [{
+//       data: Object.values(porWorkflow),
+//       type: 'bar',
+//       showBackground: true,
+//       backgroundStyle: { color: 'rgba(36,40,50,0.7)' },
+//       itemStyle: {
+//         borderRadius: [8, 8, 0, 0],
+//         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+//           { offset: 0, color: '#38bdf8' },
+//           { offset: 1, color: '#232837' }
+//         ])
+//       },
+//       emphasis: { itemStyle: { shadowBlur: 18, shadowColor: '#38bdf8' } },
+//       animationDuration: 1200
+//     }],
+//     backgroundColor: 'rgba(24,28,36,0.95)'
+//   });
+//
+//   // Erros por severidade
+//   const porSeveridade = { critical: 0 };
+//   erros.forEach(e => {
+//     const s = (e.severity || 'critical').toLowerCase();
+//     porSeveridade[s] = (porSeveridade[s] || 0) + 1;
+//   });
+//   const chart2 = echarts.init(document.getElementById('grafico-erros-severidade'));
+//   chart2.setOption({
+//     title: { text: 'Erros Críticos', left: 'center', top: 18, textStyle: { color: '#f3f4f6', fontSize: 22, fontWeight: 700, fontFamily: 'Segoe UI, Roboto, Arial' } },
+//     tooltip: {
+//       trigger: 'axis',
+//       backgroundColor: '#232837ee',
+//       borderRadius: 12,
+//       borderWidth: 0,
+//       textStyle: { color: '#f3f4f6', fontSize: 16 },
+//       padding: 14
+//     },
+//     grid: { left: 40, right: 20, top: 60, bottom: 40 },
+//     xAxis: { type: 'category', data: Object.keys(porSeveridade), axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
+//     yAxis: { type: 'value', axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
+//     series: [{
+//       data: Object.values(porSeveridade),
+//       type: 'bar',
+//       showBackground: true,
+//       backgroundStyle: { color: 'rgba(36,40,50,0.7)' },
+//       itemStyle: {
+//         borderRadius: [8, 8, 0, 0],
+//         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+//           { offset: 0, color: '#ef4444' },
+//           { offset: 1, color: '#232837' }
+//         ])
+//       },
+//       emphasis: { itemStyle: { shadowBlur: 18, shadowColor: '#ef4444' } },
+//       animationDuration: 1200
+//     }],
+//     backgroundColor: 'rgba(24,28,36,0.95)'
+//   });
+// }
 
 function tempoAtras(dataStr) {
   const agora = new Date();
@@ -143,4 +193,33 @@ function tempoAtras(dataStr) {
 }
 
 // Inicialização
-buscarErros(); 
+buscarErros();
+
+// Função de fullscreen
+const btnFullscreen = document.getElementById('btn-fullscreen');
+if (btnFullscreen) {
+  btnFullscreen.onclick = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      btnFullscreen.setAttribute('aria-label', 'Sair do modo tela cheia');
+      btnFullscreen.title = 'Sair do modo tela cheia';
+      btnFullscreen.textContent = '⨉';
+    } else {
+      document.exitFullscreen();
+      btnFullscreen.setAttribute('aria-label', 'Entrar em tela cheia');
+      btnFullscreen.title = 'Tela cheia';
+      btnFullscreen.textContent = '⛶';
+    }
+  };
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+      btnFullscreen.setAttribute('aria-label', 'Entrar em tela cheia');
+      btnFullscreen.title = 'Tela cheia';
+      btnFullscreen.textContent = '⛶';
+    } else {
+      btnFullscreen.setAttribute('aria-label', 'Sair do modo tela cheia');
+      btnFullscreen.title = 'Sair do modo tela cheia';
+      btnFullscreen.textContent = '⨉';
+    }
+  });
+} 

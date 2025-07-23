@@ -13,11 +13,12 @@ body {
   justify-content: center;
   align-items: center;
   background: #232837;
-  padding: 2.5rem 0 2.5rem 0;
+  padding: 1rem 0 1rem 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
   z-index: 10;
+  position: relative;
 }
 .header-center {
   justify-content: center;
@@ -55,7 +56,7 @@ body {
   border-radius: 1.5rem;
   padding: 2rem;
   box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .erros-header {
@@ -254,6 +255,7 @@ body {
   display: inline-block;
 }
 
+/*
 .dashboards-section {
   background: #232837;
   border-radius: 1.5rem;
@@ -261,12 +263,10 @@ body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.18);
   margin-bottom: 1.5rem;
 }
-
 .dashboards-section h2 {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 .grafico {
   width: 100%;
   height: 340px;
@@ -275,6 +275,7 @@ body {
   margin-bottom: 2rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.13);
 }
+*/
 
 /* Modal */
 .modal {
@@ -353,6 +354,91 @@ body {
   font-style: italic;
 }
 
+.btn-fullscreen {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #f3f4f6;
+  font-size: 2.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  border-radius: 0.7rem;
+  transition: background 0.2s, color 0.2s;
+  z-index: 20;
+}
+.btn-fullscreen:hover, .btn-fullscreen:focus {
+  background: #353b4a;
+  color: #fbbf24;
+  outline: none;
+}
+
+.indicadores-section {
+  width: 100%;
+  margin: 2.5rem 0 2.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+.indicadores-cards {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px;
+}
+.indicador-card {
+  flex: 1 1 0;
+  min-width: 260px;
+  max-width: 400px;
+  background: #20242e;
+  border-radius: 2rem;
+  box-shadow: 2px 2px 8px #181c24, -2px -2px 8px #232837;
+  padding: 2.2rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, background 0.2s;
+  margin-bottom: 0;
+}
+.indicador-card:hover {
+  box-shadow: 0 0 0 2px #353b4a, 2px 2px 8px #181c24, -2px -2px 8px #232837;
+}
+.indicador-titulo {
+  font-size: 1.2rem;
+  color: #a0aec0;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+  text-align: center;
+}
+.indicador-valor {
+  font-size: 2.8rem;
+  color: #f3f4f6;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.indicador-top-list {
+  list-style: decimal inside;
+  color: #fbbf24;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.indicador-top-list li {
+  color: #fbbf24;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 1px 2px #181c24;
+}
+
 @media (max-width: 900px) {
   .main-content {
     padding: 1rem 0.5rem 0 0.5rem;
@@ -366,6 +452,16 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+  .indicadores-cards {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .indicador-card {
+    min-width: 220px;
+    max-width: 98vw;
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
   }
 }
 
