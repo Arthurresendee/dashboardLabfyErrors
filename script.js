@@ -1,56 +1,68 @@
 // script.js
 
+// Caminho do arquivo de erros (mock ou real)
 const ERROS_URL = 'data/erros.json';
-const INTERVALO_ATUALIZACAO = 5 * 60 * 1000; // 5 minutos
+// Intervalo para atualizar os dados automaticamente (5 minutos)
+const INTERVALO_ATUALIZACAO = 5 * 60 * 1000;
 
+// Aqui ficam todos os erros carregados do JSON
 let erros = [];
+// Aqui ficam os erros filtrados (no futuro pode filtrar por workflow, etc)
 let errosFiltrados = [];
 
+// Pega o elemento da lista de erros na tela
 const listaErrosEl = document.getElementById('lista-erros');
-// Removido: const modalEl, detalheErroEl, fecharModalEl
 
-// Busca os erros do JSON
+// Função principal: busca os erros do JSON e atualiza a tela
+// Chama isso ao carregar a página e a cada 5 minutos
 async function buscarErros() {
   try {
-    const resp = await fetch(ERROS_URL + '?_=' + Date.now()); // cache bust
+    // Faz o fetch do arquivo JSON (com cache bust pra não pegar cache antigo)
+    const resp = await fetch(ERROS_URL + '?_=' + Date.now());
     erros = await resp.json();
-    errosFiltrados = erros;
-    desenharListaErros();
-    // desenharGraficos(); // Comentado para desabilitar os gráficos
+    errosFiltrados = erros; // Aqui pode filtrar se quiser no futuro
+    desenharListaErros(); // Atualiza a lista na tela
   } catch (e) {
+    // Se der erro no fetch, mostra mensagem de erro
     listaErrosEl.innerHTML = '<div style="color:#ef4444">Erro ao carregar dados.</div>';
   }
 }
 
+// Atualiza os cards de indicadores premium (total de erros, workflows, top 3)
 function atualizarIndicadores() {
-  // Total de erros
+  // Conta o total de erros (simples: só o tamanho do array)
   const totalErros = errosFiltrados.length;
   document.getElementById('valor-total-erros').textContent = totalErros;
 
-  // Total de workflows
+  // Conta o total de workflows únicos (Set elimina duplicados)
   const workflowsUnicos = [...new Set(errosFiltrados.map(e => e.workflow))];
   document.getElementById('valor-total-workflows').textContent = workflowsUnicos.length;
 
-  // Top 3 workflows
+  // Top 3 workflows com mais erros (conta quantos erros tem cada workflow)
   const contagem = {};
   errosFiltrados.forEach(e => {
     contagem[e.workflow] = (contagem[e.workflow] || 0) + 1;
   });
+  // Ordena do maior pro menor e pega só os 3 primeiros
   const top3 = Object.entries(contagem)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
+  // Atualiza a lista no card
   const topList = document.getElementById('valor-top-workflows');
   topList.innerHTML = top3.map(([workflow, count]) => `<li>${workflow} <span style='color:#a0aec0;font-weight:400'>(${count})</span></li>`).join('');
 }
 
-// Renderiza a lista de erros
+// Renderiza a lista de erros na tela (um card para cada erro)
+// Aqui é onde monta o HTML de cada card
 function desenharListaErros() {
   if (!errosFiltrados.length) {
     listaErrosEl.innerHTML = '<div style="color:#fbbf24">Nenhum erro encontrado.</div>';
     atualizarIndicadores();
     return;
   }
+  // Para cada erro, monta um card bonitão
   listaErrosEl.innerHTML = errosFiltrados.map(erro => {
+    // Se não vier severidade, assume critical (padrão do projeto)
     const severidade = erro.severity ? erro.severity : 'critical';
     return `
     <div class="card-erro" data-severity="${severidade}">
@@ -81,104 +93,16 @@ function desenharListaErros() {
     `;
   }).join('');
   atualizarIndicadores();
-  // desenharGraficos();
 }
 
-// Formata data/hora para exibição
+// Formata a data/hora para exibir no padrão brasileiro
+// Exemplo: 22/07/2025, 14:19
 function formatarData(dataStr) {
   const d = new Date(dataStr);
   return d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
 }
 
-// Abre modal com detalhes do erro
-window.abrirModalDetalhe = function(id) {
-  const erro = erros.find(e => e.id === id);
-  if (!erro) return;
-  // Removido: detalheErroEl.innerHTML = ...
-  // Removido: modalEl.hidden = false; modalEl.focus();
-}
-
-// Atualização periódica
-setInterval(buscarErros, INTERVALO_ATUALIZACAO);
-
-// Gráficos ECharts (placeholders)
-// function desenharGraficos() {
-//   // Erros por workflow
-//   const porWorkflow = {};
-//   erros.forEach(e => {
-//     porWorkflow[e.workflow] = (porWorkflow[e.workflow] || 0) + 1;
-//   });
-//   const chart1 = echarts.init(document.getElementById('grafico-erros-workflow'));
-//   chart1.setOption({
-//     title: { text: 'Erros por Workflow', left: 'center', top: 18, textStyle: { color: '#f3f4f6', fontSize: 22, fontWeight: 700, fontFamily: 'Segoe UI, Roboto, Arial' } },
-//     tooltip: {
-//       trigger: 'axis',
-//       backgroundColor: '#232837ee',
-//       borderRadius: 12,
-//       borderWidth: 0,
-//       textStyle: { color: '#f3f4f6', fontSize: 16 },
-//       padding: 14
-//     },
-//     grid: { left: 40, right: 20, top: 60, bottom: 40 },
-//     xAxis: { type: 'category', data: Object.keys(porWorkflow), axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
-//     yAxis: { type: 'value', axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
-//     series: [{
-//       data: Object.values(porWorkflow),
-//       type: 'bar',
-//       showBackground: true,
-//       backgroundStyle: { color: 'rgba(36,40,50,0.7)' },
-//       itemStyle: {
-//         borderRadius: [8, 8, 0, 0],
-//         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-//           { offset: 0, color: '#38bdf8' },
-//           { offset: 1, color: '#232837' }
-//         ])
-//       },
-//       emphasis: { itemStyle: { shadowBlur: 18, shadowColor: '#38bdf8' } },
-//       animationDuration: 1200
-//     }],
-//     backgroundColor: 'rgba(24,28,36,0.95)'
-//   });
-//
-//   // Erros por severidade
-//   const porSeveridade = { critical: 0 };
-//   erros.forEach(e => {
-//     const s = (e.severity || 'critical').toLowerCase();
-//     porSeveridade[s] = (porSeveridade[s] || 0) + 1;
-//   });
-//   const chart2 = echarts.init(document.getElementById('grafico-erros-severidade'));
-//   chart2.setOption({
-//     title: { text: 'Erros Críticos', left: 'center', top: 18, textStyle: { color: '#f3f4f6', fontSize: 22, fontWeight: 700, fontFamily: 'Segoe UI, Roboto, Arial' } },
-//     tooltip: {
-//       trigger: 'axis',
-//       backgroundColor: '#232837ee',
-//       borderRadius: 12,
-//       borderWidth: 0,
-//       textStyle: { color: '#f3f4f6', fontSize: 16 },
-//       padding: 14
-//     },
-//     grid: { left: 40, right: 20, top: 60, bottom: 40 },
-//     xAxis: { type: 'category', data: Object.keys(porSeveridade), axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
-//     yAxis: { type: 'value', axisLabel: { color: '#f3f4f6', fontWeight: 600, fontSize: 15 } },
-//     series: [{
-//       data: Object.values(porSeveridade),
-//       type: 'bar',
-//       showBackground: true,
-//       backgroundStyle: { color: 'rgba(36,40,50,0.7)' },
-//       itemStyle: {
-//         borderRadius: [8, 8, 0, 0],
-//         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-//           { offset: 0, color: '#ef4444' },
-//           { offset: 1, color: '#232837' }
-//         ])
-//       },
-//       emphasis: { itemStyle: { shadowBlur: 18, shadowColor: '#ef4444' } },
-//       animationDuration: 1200
-//     }],
-//     backgroundColor: 'rgba(24,28,36,0.95)'
-//   });
-// }
-
+// Calcula quanto tempo faz desde o erro (ex: "10 min atrás", "2h atrás")
 function tempoAtras(dataStr) {
   const agora = new Date();
   const data = new Date(dataStr);
@@ -192,10 +116,8 @@ function tempoAtras(dataStr) {
   return `${diffD}d atrás`;
 }
 
-// Inicialização
-buscarErros();
-
-// Função de fullscreen
+// Botão de fullscreen para TV
+// Quando clica, entra ou sai do modo tela cheia
 const btnFullscreen = document.getElementById('btn-fullscreen');
 if (btnFullscreen) {
   btnFullscreen.onclick = () => {
@@ -211,6 +133,7 @@ if (btnFullscreen) {
       btnFullscreen.textContent = '⛶';
     }
   };
+  // Atualiza o ícone/texto do botão quando muda o estado do fullscreen
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement) {
       btnFullscreen.setAttribute('aria-label', 'Entrar em tela cheia');
@@ -222,4 +145,9 @@ if (btnFullscreen) {
       btnFullscreen.textContent = '⨉';
     }
   });
-} 
+}
+
+// Inicialização: busca os erros ao carregar a página e atualiza periodicamente
+// Se quiser mudar o tempo, altere INTERVALO_ATUALIZACAO lá em cima
+buscarErros();
+setInterval(buscarErros, INTERVALO_ATUALIZACAO); 

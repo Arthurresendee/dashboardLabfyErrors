@@ -9,14 +9,28 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body>
+  <!--
+Header centralizado com nome do dashboard e botão de fullscreen
+-->
   <header class="header header-center">
     <span class="labfy-logo">Lista de erros LabFy</span>
     <button id="btn-fullscreen" class="btn-fullscreen" aria-label="Entrar em tela cheia" title="Tela cheia">⛶</button>
   </header>
+
+  <!--
+Lista de erros: cada erro aparece como um card detalhado, um abaixo do outro
+-->
   <main class="main-content">
     <section class="erros-section">
       <div id="lista-erros" class="lista-erros"></div>
     </section>
+
+    <!--
+    Indicadores principais do dashboard (cards premium):
+    - Total de erros
+    - Total de workflows
+    - Top 3 workflows com mais erros
+    -->
     <section class="indicadores-section">
       <div class="indicadores-cards">
         <div class="indicador-card" id="card-total-erros">
@@ -33,13 +47,6 @@
         </div>
       </div>
     </section>
-    <!--
-    <section class="dashboards-section">
-      <h2>Dashboards</h2>
-      <div id="grafico-erros-workflow" class="grafico"></div>
-      <div id="grafico-erros-severidade" class="grafico"></div>
-    </section>
-    -->
   </main>
   <script src="script.js"></script>
 </body>
